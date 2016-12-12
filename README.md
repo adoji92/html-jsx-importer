@@ -24,5 +24,5 @@ The script handles below functions.
 - `class="` => `className="`
 - `for="` => `htmlFor="`
 - `style="background-color: white; padding: 10px;"` => `style={{ backgroundColor: 'white', padding: '10px' }}`
-- `<img src="flags/flag_vietnam.png"> => `<img src="flags/flag_vietnam.png" />`
+- `<img src="flags/flag_vietnam.png">` => `<img src="flags/flag_vietnam.png" />`
 
