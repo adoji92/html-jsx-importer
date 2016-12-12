@@ -3,7 +3,7 @@ Parse html and make it compatible with react JSX. Powered by Node.js
 
 ---
 
-## Installation 
+## Installation
 
 `npm install`
 
@@ -14,7 +14,9 @@ Parse html and make it compatible with react JSX. Powered by Node.js
 ---
 
 This is NOT a loader, or a plugin for webpack. Sorry.
+
 But i made up this script for co-operating with designer. (some sort of web publisher)
+
 The script handles below functions.
 
 - `<br>` => `<br />`
