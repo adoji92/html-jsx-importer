@@ -25,4 +25,6 @@ The script handles below functions.
 - `for="` => `htmlFor="`
 - `style="background-color: white; padding: 10px;"` => `style={{ backgroundColor: 'white', padding: '10px' }}`
 - `<img src="flags/flag_vietnam.png">` => `<img src="flags/flag_vietnam.png" />`
-
+- `<input type="text">` => `<input type="text" />`
+- `<label>` => `<label htmlFor="label" />`
+- `<!-- TODO replace dummy value -->` => `{/* TODO replace dummy value */}`
