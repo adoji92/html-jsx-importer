@@ -6,6 +6,9 @@ const result = [];
 
 const stylePatt = /style=\"(.*?)\"/;
 const imgPatt = /<img(.*?)>/;
+const inputPatt = /<input(.*?)>/;
+const labelPatt = /<label(.*?)>/;
+const commentPatt = /<!--(.*?)-->/;
 
 for (let i = 0; i < rawFileInput.length; ++i) {
   const line = rawFileInput[i];
@@ -36,16 +39,50 @@ for (let i = 0; i < rawFileInput.length; ++i) {
 
   // Process not self-closed img
   if(imgPatt.test(processedLine)) {
-    const matcher = line.match(imgPatt);
-    console.log('matcher', matcher);
+    // console.log('processedLine img', processedLine);
 
-    if (!processedLine.endsWith('/>') && processedLine.endsWith('>')) {
+    const matcher = processedLine.match(imgPatt);
+    // console.log('matcher', matcher);
+
+    if (!matcher[0].endsWith('/>') && matcher[0].endsWith('>')) {
       const newImgStr = matcher[0].replace('>', ' />');
       processedLine = processedLine.replace(matcher[0], newImgStr);
     }
   }
 
-  rawFileInput[i] = processedLine;
+  // Process not self-closed input
+  if(inputPatt.test(processedLine)) {
+    const matcher = processedLine.match(inputPatt);
+
+    if (!matcher[0].endsWith('/>') && matcher[0].endsWith('>')) {
+      const newImgStr = matcher[0].replace('>', ' />');
+      processedLine = processedLine.replace(matcher[0], newImgStr);
+    }
+  }
+
+  // Process label htmlFor
+  if(labelPatt.test(processedLine)) {
+    const matcher = processedLine.match(labelPatt);
+    // console.log('matcher', matcher);
+
+    if (!matcher[0].includes('htmlFor')) {
+      processedLine = processedLine.replace('<label', '<label htmlFor="label"');
+    }
+  }
+
+  // Process <!-- --> deleting
+  if(commentPatt.test(processedLine)) {
+    const matcher = processedLine.match(commentPatt);
+    console.log('matcher', matcher);
+    processedLine = processedLine.replace(matcher[0], '');
+  }
+
+  // if processedLine is empty, skip
+  if (processedLine.trim().length === 0) {
+    continue;
+  }
+
+  result.push(processedLine);
 }
 
 // for (let i = 0; i < a.length; ++i) {
@@ -57,7 +94,7 @@ for (let i = 0; i < rawFileInput.length; ++i) {
 
 // console.log(a);
 
-fs.writeFileSync('./output.html', rawFileInput.reduce((acc, item) => {
+fs.writeFileSync('./output.html', result.reduce((acc, item) => {
   return `${acc}\n${item}`
 }), '');
 
