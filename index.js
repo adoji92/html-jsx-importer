@@ -70,11 +70,23 @@ for (let i = 0; i < rawFileInput.length; ++i) {
     }
   }
 
-  // Process <!-- --> deleting
+  // Process <!-- -->
   if(commentPatt.test(processedLine)) {
     const matcher = processedLine.match(commentPatt);
     console.log('matcher', matcher);
-    processedLine = processedLine.replace(matcher[0], '');
+    let jsxCommentStr;
+    if (matcher[1][0] === ' ') {
+      jsxCommentStr = matcher[0].replace('<!--', '{/*');
+    } else {
+      jsxCommentStr = matcher[0].replace('<!--', '{/* ');
+    }
+    const matcher1Length = matcher[1].length;
+    if (matcher[1][matcher1Length - 1] === ' ') {
+      jsxCommentStr = jsxCommentStr.replace('-->', '*/}');
+    } else {
+      jsxCommentStr = jsxCommentStr.replace('-->', ' */}');
+    }
+    processedLine = processedLine.replace(matcher[0], jsxCommentStr);
   }
 
   // if processedLine is empty, skip
